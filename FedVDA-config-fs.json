@@ -1,0 +1,86 @@
+{
+  "wandb": {
+    "enabled": true,
+    "project": "FedVDA论文-FashionMnist",
+    "name": "fedvda"
+  },
+  "global": {
+    "mode": "thread",
+    "use_file_system": false,
+    "multi_gpu": true,
+    "experiment": "FedVDA/essay/1",
+    "stale": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10],
+    "dataset": {
+      "path": "dataset.FashionMNIST.FashionMNIST",
+      "params": {}
+    },
+    "iid": {
+      "beta": 0.5
+    },
+    "client_num": 30
+  },
+  "server": {
+    "path": "server.SyncServer.SyncServer",
+    "epochs": 500,
+    "model": {
+      "path": "model.CNN.CNN",
+      "params": {
+      }
+    },
+    "scheduler": {
+      "path": "scheduler.VDAScheduler.VDAScheduler",
+      "schedule":{
+        "path": "schedule.RandomSchedule.RandomSchedule",
+        "params": {
+          "c_ratio": 0.7
+        }
+      }
+    },
+    "updater": {
+      "path": "updater.VDAUpdater.VDAUpdater",
+      "update": {
+        "path": "update.FedVDA.FedVDA",
+        "params": {
+        }
+      },
+      "loss": "torch.nn.functional.cross_entropy",
+      "params": {
+      }
+    }
+  },
+  "queue_manager": {
+    "path": "queuemanager.VDAQueueManager.VDAQueueManager",
+    "receiver": {
+      "path": "receiver.VDAReceiver.VDAReceiver",
+      "params": {
+      }
+    },
+    "checker": {
+      "path": "checker.AllChecker.AllChecker",
+      "params": {
+      }
+    }
+  },
+  "client_manager": {
+    "path": "clientmanager.NormalClientManager.NormalClientManager"
+  },
+  "client": {
+    "path": "client.VDAClient.VDAClient",
+    "epochs": 1,
+    "batch_size": 64,
+    "model": {
+      "path": "model.CNN.CNN",
+      "params": {
+      }
+    },
+    "loss": "torch.nn.functional.cross_entropy",
+    "mu": 0,
+    "optimizer": {
+      "path": "torch.optim.SGD",
+      "params": {
+        "lr": 0.01,
+        "weight_decay": 0
+      }
+    }
+  }
+}
