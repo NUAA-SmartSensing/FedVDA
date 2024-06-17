@@ -2,20 +2,21 @@
   "wandb": {
     "enabled": false,
     "project": "FedVDA论文",
-    "name": "fedvda+nova"
+    "name": "fedvda-0.1"
   },
   "global": {
     "mode": "thread",
+    "dataset_pre_load": true,
     "use_file_system": false,
     "multi_gpu": true,
-    "experiment": "FedVDA/essay/1",
+    "experiment": "FedVDA/essay/50",
     "stale": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,10,10,10,10,10,10,10,10,10,30,30,30,30,30],
     "dataset": {
       "path": "dataset.CIFAR10.CIFAR10",
       "params": {}
     },
     "iid": {
-      "beta": 0.5
+      "beta": 0.1
     },
     "client_num": 30
   },
@@ -41,7 +42,7 @@
     "updater": {
       "path": "updater.SyncUpdater.SyncUpdater",
       "update": {
-        "path": "update.FedNova.FedNova",
+        "path": "update.FedAvg.FedAvg",
         "params": {
         }
       },
@@ -70,7 +71,7 @@
     "path": "clientmanager.NormalClientManager.NormalClientManager"
   },
   "client": {
-    "path": "client.NovaClient.NovaClient",
+    "path": "client.NormalClient.NormalClient",
     "epochs": 2,
     "batch_size": 128,
     "model": {

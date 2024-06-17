@@ -1,0 +1,89 @@
+{
+    "wandb": {
+      "enabled": false,
+      "project": "FedVDA论文-FashionMnist",
+      "name": "fedvda"
+    },
+    "global": {
+      "mode": "thread",
+      "dataset_pre_load": true,
+      "use_file_system": false,
+      "multi_gpu": true,
+      "experiment": "FedVDA/essay/1",
+      "stale": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10],
+      "dataset": {
+        "path": "dataset.FashionMNIST.FashionMNIST",
+        "params": {}
+      },
+      "iid": true,
+      "client_num": 30
+    },
+    "server": {
+      "path": "server.NormalServer.NormalServer",
+      "epochs": 500,
+      "model": {
+        "path": "model.CNN.CNN",
+        "params": {
+        }
+      },
+      "scheduler": {
+        "path": "scheduler.VDAScheduler.VDAScheduler",
+        "schedule":{
+          "path": "schedule.RandomSchedule.RandomSchedule",
+          "params": {
+            "c_ratio": 0.7
+          }
+        },
+        "time_window": 0
+      },
+      "updater": {
+        "path": "updater.SyncUpdater.SyncUpdater",
+        "update": {
+          "path": "update.FedAvg.FedAvg",
+          "params": {
+          }
+        },
+        "loss": "torch.nn.functional.cross_entropy",
+        "params": {
+        }
+      }
+    },
+    "queue_manager": {
+      "path": "queuemanager.VCMQueueManager.VCMQueueManager",
+      "vcm": {
+        "update": "direct"
+      },
+      "receiver": {
+        "path": "receiver.VCMReceiver.VCMReceiver",
+        "params": {
+        }
+      },
+      "checker": {
+        "path": "checker.AllChecker.AllChecker",
+        "params": {
+        }
+      }
+    },
+    "client_manager": {
+      "path": "clientmanager.NormalClientManager.NormalClientManager"
+    },
+    "client": {
+      "path": "client.NormalClient.NormalClient",
+      "epochs": 1,
+      "batch_size": 64,
+      "model": {
+        "path": "model.CNN.CNN",
+        "params": {
+        }
+      },
+      "loss": "torch.nn.functional.cross_entropy",
+      "mu": 0,
+      "optimizer": {
+        "path": "torch.optim.SGD",
+        "params": {
+          "lr": 0.01,
+          "weight_decay": 0
+        }
+      }
+    }
+  }

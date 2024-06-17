@@ -1,10 +1,11 @@
 {
   "wandb": {
-    "enabled": true,
-    "project": "FedVDA论文-UCIHAR-0.2",
-    "name": "fedvda"
+    "enabled": false,
+    "project": "FedVDA论文-UCIHAR",
+    "name": "fedvda-0.2"
   },
   "global": {
+    "dataset_pre_load": true,
     "mode": "thread",
     "use_file_system": false,
     "multi_gpu": true,
@@ -20,12 +21,12 @@
     "client_num": 30
   },
   "server": {
-    "path": "server.SyncServer.SyncServer",
+    "path": "server.NormalServer.NormalServer",
     "epochs": 500,
     "model": {
       "path": "model.HAR.cnn.CNN",
       "params": {
-        "train_shape": "self.dataset.train_dataset.data.shape",
+        "train_shape": "self.train_ds.data.shape",
         "category": 12
       }
     },
@@ -39,9 +40,9 @@
       }
     },
     "updater": {
-      "path": "updater.VDAUpdater.VDAUpdater",
+      "path": "updater.SyncUpdater.SyncUpdater",
       "update": {
-        "path": "update.FedVDA.FedVDA",
+        "path": "update.FedAvg.FedAvg",
         "params": {
         }
       },
@@ -51,9 +52,12 @@
     }
   },
   "queue_manager": {
-    "path": "queuemanager.VDAQueueManager.VDAQueueManager",
+    "path": "queuemanager.VCMQueueManager.VCMQueueManager",
+    "vcm": {
+      "update": "direct"
+    },
     "receiver": {
-      "path": "receiver.VDAReceiver.VDAReceiver",
+      "path": "receiver.VCMReceiver.VCMReceiver",
       "params": {
       }
     },
@@ -67,13 +71,13 @@
     "path": "clientmanager.NormalClientManager.NormalClientManager"
   },
   "client": {
-    "path": "client.VDAClient.VDAClient",
+    "path": "client.NormalClient.NormalClient",
     "epochs": 1,
     "batch_size": 64,
     "model": {
       "path": "model.HAR.cnn.CNN",
       "params": {
-        "train_shape": "train_ds[0][0].shape",
+        "train_shape": "self.train_ds.data.shape",
         "category": 12
       }
     },
