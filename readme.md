@@ -2,7 +2,7 @@
 
 =====================
 
-This repository contains the configuration files for FedVDA. The running code is available at [FedModule](https://github.com/desperadoccy/async-FL).
+This repository contains the configuration files for FedVDA. The running code is available at [FedModule](https://github.com/NUAA-SmartSensing/FedModule).
 
 Please download the code from two repositories and place the configuration files from this repository into the `config` directory of the `FedModule` project. Then, execute the following command to start the experiment.
 
